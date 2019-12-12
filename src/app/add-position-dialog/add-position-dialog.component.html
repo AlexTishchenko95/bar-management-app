@@ -1,0 +1,58 @@
+<div class="dialog-window">
+  <h1 mat-dialog-title>Создание новой позиции</h1>
+
+  <form [formGroup]="formCreate">
+    <mat-form-field class="input-create">
+      <input
+        matInput
+        formControlName="type"
+        placeholder="Тип"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        Заполните поле!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="input-create">
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Наименование"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        Заполните поле!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="input-create">
+      <input
+        matInput
+        formControlName="coast"
+        placeholder="Цена"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        {{ formCreate.get('coast').errors?.numericValidatorWarning }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="input-create">
+      <input
+        matInput
+        formControlName="rest"
+        placeholder="Количество"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        {{ formCreate.get('rest').errors?.numericValidatorWarning }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <div class="buttons">
+  <button mat-raised-button [mat-dialog-close]="false">Закрыть</button>
+  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>Добавить</button>
+  </div>
+</div>

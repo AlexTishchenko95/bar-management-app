@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {HeaderModule} from "./header/header.module";
 import {BarTableModule} from "./bar-table/bar-table.module";
+import {AddPositionDialogModule} from "./add-position-dialog/add-position-dialog.module";
+
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import {BarTableModule} from "./bar-table/bar-table.module";
     AppRoutingModule,
     BrowserAnimationsModule,
     HeaderModule,
-    BarTableModule
+    BarTableModule,
+    AddPositionDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
