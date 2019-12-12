@@ -1,0 +1,58 @@
+<button mat-raised-button class="add-position-button" (click)="addPosition()"> Добавить позицию </button>
+
+<table mat-table [dataSource]="dataSource" class="bar-table">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> Позиция </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef> Тип </th>
+    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Наименование </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Coast Column -->
+  <ng-container matColumnDef="coast">
+    <th mat-header-cell *matHeaderCellDef> Цена, руб. </th>
+    <td mat-cell *matCellDef="let element"> {{element.coast}} </td>
+  </ng-container>
+
+  <!-- Rest Column -->
+  <ng-container matColumnDef="rest">
+    <th mat-header-cell *matHeaderCellDef> Количество </th>
+    <td mat-cell *matCellDef="let element"> {{element.rest}} </td>
+  </ng-container>
+
+  <!-- Edit Column -->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell matTooltip="Редактировать позицию" *matCellDef="let element; let i = index">
+      <button mat-icon-button color="basic" (click)="onEdit(i)">
+        <mat-icon>description</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- onDelete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell matTooltip="Удалить позицию" *matCellDef="let element; let i = index">
+      <button mat-icon-button color="warn" (click)="onDelete(i)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
