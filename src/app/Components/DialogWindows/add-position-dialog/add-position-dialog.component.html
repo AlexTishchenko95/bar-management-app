@@ -1,8 +1,10 @@
-<div class="dialog-window">
+<div class="add-position-dialog-window">
+  <div class="header-dialog-window">
   <h1 mat-dialog-title>Создание новой позиции</h1>
+  </div>
 
   <form [formGroup]="formCreate">
-    <mat-form-field class="input-create">
+    <mat-form-field class="input-create-type">
       <input
         matInput
         formControlName="type"
@@ -14,7 +16,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="input-create">
+    <mat-form-field class="input-create-name">
       <input
         matInput
         formControlName="name"
@@ -29,24 +31,36 @@
     <mat-form-field class="input-create">
       <input
         matInput
-        formControlName="coast"
-        placeholder="Цена"
+        formControlName="volume"
+        placeholder="Объем бутылки, л."
         autocomplete="off"
       />
       <mat-error *ngIf="formCreate.invalid">
-        {{ formCreate.get('coast').errors?.numericValidatorWarning }}
+        {{ formCreate.get('volume').errors?.numericValidatorWarning }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="input-create">
       <input
         matInput
-        formControlName="rest"
-        placeholder="Количество"
+        formControlName="price"
+        placeholder="Цена, руб."
         autocomplete="off"
       />
       <mat-error *ngIf="formCreate.invalid">
-        {{ formCreate.get('rest').errors?.numericValidatorWarning }}
+        {{ formCreate.get('price').errors?.numericValidatorWarning }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="input-create">
+      <input
+        matInput
+        formControlName="balance"
+        placeholder="Количество бутылок"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        {{ formCreate.get('balance').errors?.numericValidatorWarning }}
       </mat-error>
     </mat-form-field>
   </form>

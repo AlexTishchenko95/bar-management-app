@@ -4,7 +4,7 @@ import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/for
 function numericFieldValidator(control: FormControl): ValidationErrors {
   if (control.value === null) return null;
   if (isNaN(control.value)) {
-    return { numericValidatorWarning: 'Цена состоит только из числовых значений!' };
+    return { numericValidatorWarning: 'Значение должно быть числом!' };
   }
   return null;
 }
@@ -22,8 +22,9 @@ export class AddPositionDialogComponent {
     this.formCreate = new FormGroup({
       type: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
-      coast: new FormControl('', numericFieldValidator),
-      rest: new FormControl('', numericFieldValidator)
+      volume: new FormControl('', numericFieldValidator),
+      price: new FormControl('', numericFieldValidator),
+      balance: new FormControl('', numericFieldValidator)
     });
   }
 

@@ -1,14 +1,24 @@
 .add-position-button {
   margin: 30px 30px 0px;
-  text-align: left;
+  text-align: right;
 }
 
 table {
   width: 100%;
-  margin: 50px 0px 0px;
+  margin: 10px 0px 0px;
 
   td.mat-column-position {
-    width: 7%;
+    width: 6%;
+  }
+
+  td.mat-column-add {
+    width: 3%;
+    text-align: right;
+  }
+
+  td.mat-column-remove {
+    width: 3%;
+    text-align: right;
   }
 
   td.mat-column-edit {
