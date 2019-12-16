@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 
-import {AddPositionDialogComponent} from "../DialogWindows/add-position-dialog/add-position-dialog.component";
-import {EditPositionDialogComponent} from "../DialogWindows/edit-position-dialog/edit-position-dialog.component";
-import {IncreasePositionDialogComponent} from "../DialogWindows/increase-position-dialog/increase-position-dialog.component";
-import {DecreasePositionDialogComponent} from "../DialogWindows/decrease-position-dialog/decrease-position-dialog.component";
-import {DeletePositionDialogComponent} from "../DialogWindows/delete-position-dialog/delete-position-dialog.component";
+import {AddPositionDialogComponent} from "../../DialogWindows/add-position-dialog/add-position-dialog.component";
+import {EditPositionDialogComponent} from "../../DialogWindows/edit-position-dialog/edit-position-dialog.component";
+import {IncreasePositionDialogComponent} from "../../DialogWindows/increase-position-dialog/increase-position-dialog.component";
+import {DecreasePositionDialogComponent} from "../../DialogWindows/decrease-position-dialog/decrease-position-dialog.component";
+import {DeletePositionDialogComponent} from "../../DialogWindows/delete-position-dialog/delete-position-dialog.component";
 
 export interface AcloholPosition {
   type: string
@@ -46,14 +46,14 @@ export class BarTableComponent {
   onIncrease(i) {
     console.log("Add ", i, " row");
     const dialogRef = this.dialog.open(IncreasePositionDialogComponent, {
-      width: '50%',
+      width: '30%',
     });
   }
 
   onDecrease(i) {
     console.log("Remove ", i, " row");
     const dialogRef = this.dialog.open(DecreasePositionDialogComponent, {
-      width: '50%',
+      width: '30%',
     });
   }
 

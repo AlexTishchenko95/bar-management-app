@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddPositionDialogComponent } from './add-position-dialog.component';
 
+
 @NgModule({
   declarations: [AddPositionDialogComponent],
   entryComponents: [

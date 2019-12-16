@@ -1,0 +1,31 @@
+<div class="increase-position-dialog-window">
+  <div class="header-dialog-window">
+    <h1 mat-dialog-title>Окно по закупке позиции</h1>
+  </div>
+
+  <div class="info-message">
+  <p>В наличии x бутылок по этой позиции</p>
+  </div>
+
+  <form [formGroup]="formCreate">
+
+    <mat-form-field class="increase-dialog">
+      <input
+        matInput
+        formControlName="increaseValue"
+        placeholder="Количество добавленных бут., шт."
+        autocomplete="off"
+      />
+      <mat-error *ngIf="formCreate.invalid">
+        {{ formCreate.get('increaseValue').errors?.numericValidatorWarning }}
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+
+  <div class="buttons">
+    <button mat-raised-button [mat-dialog-close]="false">Закрыть</button>
+    <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>Принять</button>
+  </div>
+</div>
+

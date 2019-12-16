@@ -57,7 +57,7 @@
   <!-- Add Column -->
   <ng-container matColumnDef="add">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell matTooltip="Увеличить количество" *matCellDef="let element; let i = index">
+    <td mat-cell matTooltip="Закупка для позиции" *matCellDef="let element; let i = index">
       <button mat-icon-button color="basic" (click)="onIncrease(i)">
         <mat-icon>add_circle_outline</mat-icon>
       </button>
@@ -67,7 +67,7 @@
   <!-- Remove Column -->
   <ng-container matColumnDef="remove">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell matTooltip="Уменьшить количество" *matCellDef="let element; let i = index">
+    <td mat-cell matTooltip="Продажа для позиции" *matCellDef="let element; let i = index">
       <button mat-icon-button color="basic" (click)="onDecrease(i)">
         <mat-icon>remove_circle_outline</mat-icon>
       </button>

@@ -1,13 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-
-function numericFieldValidator(control: FormControl): ValidationErrors {
-  if (control.value === null) return null;
-  if (isNaN(control.value)) {
-    return { numericValidatorWarning: 'Значение должно быть числом!' };
-  }
-  return null;
-}
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {numericFieldValidator} from "../../Validators/numeric-field-validator";
 
 @Component({
   selector: 'app-add-position-dialog',
