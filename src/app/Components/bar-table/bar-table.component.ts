@@ -8,7 +8,7 @@ import {DecreasePositionDialogComponent} from "../../DialogWindows/decrease-posi
 import {DeletePositionDialogComponent} from "../../DialogWindows/delete-position-dialog/delete-position-dialog.component";
 
 export interface AcloholPosition {
-  type: string
+  type: string;
   name: string;
   volume: number;
   price: number;

@@ -15,9 +15,9 @@ export class AddPositionDialogComponent {
     this.formCreate = new FormGroup({
       type: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
-      volume: new FormControl('', numericFieldValidator),
-      price: new FormControl('', numericFieldValidator),
-      balance: new FormControl('', numericFieldValidator)
+      volume: new FormControl('', [numericFieldValidator, Validators.required]),
+      price: new FormControl('', [numericFieldValidator, Validators.required]),
+      balance: new FormControl('', [numericFieldValidator, Validators.required])
     });
   }
 

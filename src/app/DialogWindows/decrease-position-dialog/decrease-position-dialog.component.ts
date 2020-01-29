@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {numericFieldValidator} from "../../Validators/numeric-field-validator";
 
 @Component({
@@ -13,7 +13,7 @@ export class DecreasePositionDialogComponent {
 
   constructor() {
     this.formCreate = new FormGroup({
-      decreaseValue: new FormControl('', numericFieldValidator),
+      decreaseValue: new FormControl('', [numericFieldValidator, Validators.required]),
     });
   }
 

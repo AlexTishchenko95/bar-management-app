@@ -7,5 +7,8 @@ export function numericFieldValidator(control: FormControl): ValidationErrors {
   if (isNaN(control.value)) {
     return { numericValidatorWarning: 'Значение должно быть числом!' };
   }
+  if (control.value === '') {
+    return { numericValidatorWarning: 'Заполните поле!' };
+  }
   return null;
 }
