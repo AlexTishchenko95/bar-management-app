@@ -1,11 +1,16 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+
+import {ShareDataService} from "../../Services/share-data/share-data.service";
+import {Observable, Subject} from "rxjs";
+import {takeUntil} from 'rxjs/operators';
 
 import {AddPositionDialogComponent} from "../../DialogWindows/add-position-dialog/add-position-dialog.component";
 import {EditPositionDialogComponent} from "../../DialogWindows/edit-position-dialog/edit-position-dialog.component";
 import {IncreasePositionDialogComponent} from "../../DialogWindows/increase-position-dialog/increase-position-dialog.component";
 import {DecreasePositionDialogComponent} from "../../DialogWindows/decrease-position-dialog/decrease-position-dialog.component";
 import {DeletePositionDialogComponent} from "../../DialogWindows/delete-position-dialog/delete-position-dialog.component";
+import {HttpReqService} from "../../Services/http-request/http-req.service";
 
 export interface AcloholPosition {
   type: string;
@@ -15,13 +20,7 @@ export interface AcloholPosition {
   balance: number;
 }
 
-const ELEMENT_DATA: AcloholPosition[] = [
-  {type: 'Пиво', name: 'Лидское барное', volume: 0.5, price: 2.50, balance: 22},
-  {type: 'Водка', name: 'Сваяк', volume: 0.5, price: 12.40, balance: 13},
-  {type: 'Виски', name: 'Айриш дай', volume: 1, price: 76.30, balance: 5},
-  {type: 'Ром', name: 'Одноглазый пират', volume: 0.7, price: 55.90, balance: 1},
-  {type: 'Самогон', name: 'Калечащий', volume: 2, price: 390.1, balance: 1},
-];
+let ELEMENT_DATA: AcloholPosition[];
 
 @Component({
   selector: 'app-bar-table',
@@ -29,12 +28,27 @@ const ELEMENT_DATA: AcloholPosition[] = [
   styleUrls: ['./bar-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BarTableComponent {
+export class BarTableComponent implements OnInit, OnDestroy {
+  list$: Observable<AcloholPosition[]> = this.share.dataList$;
+  destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private share: ShareDataService, private httpreq: HttpReqService) { }
 
   displayedColumns: string[] = ['position', 'type', 'name', 'volume', 'price', 'balance', 'totalVolume', 'add', 'remove', 'edit', 'delete'];
-  dataSource = ELEMENT_DATA;
+
+  ngOnInit() {
+    this.readAlcoholFileListOnServer();
+  }
+
+  readAlcoholFileListOnServer() {
+    this.httpreq.requestPost('readFile', 'alcohol-list.json', '')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((responseJson: string) => {
+        const response = JSON.parse(responseJson);
+        this.share.dataList$.next(response);
+        ELEMENT_DATA = response;
+      });
+  }
 
   addPosition() {
     console.log('addPosition');
@@ -69,5 +83,10 @@ export class BarTableComponent {
     const dialogRef = this.dialog.open(DeletePositionDialogComponent, {
       width: '20%',
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }

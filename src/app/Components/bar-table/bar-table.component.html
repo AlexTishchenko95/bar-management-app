@@ -2,7 +2,7 @@
  <button mat-raised-button (click)="addPosition()"> Добавить позицию </button>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="bar-table">
+<table mat-table [dataSource]="list$ | async" class="bar-table">
 
   <!-- Position Column -->
   <ng-container matColumnDef="position">
