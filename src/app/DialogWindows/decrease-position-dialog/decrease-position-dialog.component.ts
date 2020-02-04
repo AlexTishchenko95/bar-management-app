@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {numericFieldValidator} from "../../Validators/numeric-field-validator";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {numericFieldValidator} from '../../Validators/numeric-field-validator';
 
 @Component({
   selector: 'app-decrease-position-dialog',

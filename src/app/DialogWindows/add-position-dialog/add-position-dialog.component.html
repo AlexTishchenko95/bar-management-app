@@ -67,6 +67,6 @@
 
   <div class="buttons">
   <button mat-raised-button [mat-dialog-close]="false">Закрыть</button>
-  <button mat-raised-button [disabled]="formCreate.invalid" [mat-dialog-close]="true">Добавить</button>
+  <button mat-raised-button [disabled]="formCreate.invalid" [mat-dialog-close]="formCreate.value">Добавить</button>
   </div>
 </div>

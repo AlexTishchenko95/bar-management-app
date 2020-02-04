@@ -1,18 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
 
-import {ShareDataService} from "../../Services/share-data/share-data.service";
-import {Observable, Subject} from "rxjs";
+import {ShareDataService} from '../../Services/share-data/share-data.service';
+import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import {AddPositionDialogComponent} from "../../DialogWindows/add-position-dialog/add-position-dialog.component";
-import {EditPositionDialogComponent} from "../../DialogWindows/edit-position-dialog/edit-position-dialog.component";
-import {IncreasePositionDialogComponent} from "../../DialogWindows/increase-position-dialog/increase-position-dialog.component";
-import {DecreasePositionDialogComponent} from "../../DialogWindows/decrease-position-dialog/decrease-position-dialog.component";
-import {DeletePositionDialogComponent} from "../../DialogWindows/delete-position-dialog/delete-position-dialog.component";
-import {HttpReqService} from "../../Services/http-request/http-req.service";
+import {AddPositionDialogComponent} from '../../DialogWindows/add-position-dialog/add-position-dialog.component';
+import {EditPositionDialogComponent} from '../../DialogWindows/edit-position-dialog/edit-position-dialog.component';
+import {IncreasePositionDialogComponent} from '../../DialogWindows/increase-position-dialog/increase-position-dialog.component';
+import {DecreasePositionDialogComponent} from '../../DialogWindows/decrease-position-dialog/decrease-position-dialog.component';
+import {DeletePositionDialogComponent} from '../../DialogWindows/delete-position-dialog/delete-position-dialog.component';
+import {HttpReqService} from '../../Services/http-request/http-req.service';
 
-export interface AcloholPosition {
+export interface AlcoholPosition {
   type: string;
   name: string;
   volume: number;
@@ -20,7 +20,7 @@ export interface AcloholPosition {
   balance: number;
 }
 
-let ELEMENT_DATA: AcloholPosition[];
+let alcoholList: AlcoholPosition[];
 
 @Component({
   selector: 'app-bar-table',
@@ -29,10 +29,10 @@ let ELEMENT_DATA: AcloholPosition[];
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BarTableComponent implements OnInit, OnDestroy {
-  list$: Observable<AcloholPosition[]> = this.share.dataList$;
+  list$: Observable<AlcoholPosition[]> = this.share.dataList$;
   destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dialog: MatDialog, private share: ShareDataService, private httpreq: HttpReqService) { }
+constructor(private dialog: MatDialog, private share: ShareDataService, private httpreq: HttpReqService) { }
 
   displayedColumns: string[] = ['position', 'type', 'name', 'volume', 'price', 'balance', 'totalVolume', 'add', 'remove', 'edit', 'delete'];
 
@@ -40,48 +40,87 @@ export class BarTableComponent implements OnInit, OnDestroy {
     this.readAlcoholFileListOnServer();
   }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// WORK WITH SERVER
+
   readAlcoholFileListOnServer() {
     this.httpreq.requestPost('readFile', 'alcohol-list.json', '')
       .pipe(takeUntil(this.destroy$))
       .subscribe((responseJson: string) => {
         const response = JSON.parse(responseJson);
         this.share.dataList$.next(response);
-        ELEMENT_DATA = response;
+        alcoholList = response;
       });
   }
 
+  pushAlcoholListOnServer() {
+    const alcoholListJson = JSON.stringify(alcoholList);
+    this.httpreq.requestPost('updateFile', 'alcohol-list.json', alcoholListJson)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => console.log('status ' + response));
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   addPosition() {
-    console.log('addPosition');
     const dialogRef = this.dialog.open(AddPositionDialogComponent, {
       width: '70%',
     });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        const newAlcoholItem: AlcoholPosition = {...data};
+        alcoholList.push(newAlcoholItem);
+        this.pushAlcoholListOnServer();
+        this.readAlcoholFileListOnServer();
+      });
   }
 
   onIncrease(i) {
-    console.log("Add ", i, " row");
     const dialogRef = this.dialog.open(IncreasePositionDialogComponent, {
       width: '30%',
     });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => {
+        alcoholList[i].balance = +alcoholList[i].balance + +value.increaseValue;
+        this.pushAlcoholListOnServer();
+        this.readAlcoholFileListOnServer();
+      });
   }
 
   onDecrease(i) {
-    console.log("Remove ", i, " row");
     const dialogRef = this.dialog.open(DecreasePositionDialogComponent, {
       width: '30%',
     });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => {
+        alcoholList[i].balance = alcoholList[i].balance - value.increaseValue;
+        console.log(alcoholList);
+       // this.pushAlcoholListOnServer();
+       // this.readAlcoholFileListOnServer();
+      });
   }
 
   onEdit(i) {
-    console.log("Edit ", i, " row");
     const dialogRef = this.dialog.open(EditPositionDialogComponent, {
       width: '70%',
     });
   }
 
-  onDelete(i) {
-    console.log("Delete ", i, " row");
+  onDelete(index) {
     const dialogRef = this.dialog.open(DeletePositionDialogComponent, {
       width: '20%',
+    });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(ok => {
+        if (ok) {
+          alcoholList.splice(index , 1);
+          this.pushAlcoholListOnServer();
+          this.readAlcoholFileListOnServer();
+        }
     });
   }
 
